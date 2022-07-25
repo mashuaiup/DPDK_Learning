@@ -1,0 +1,67 @@
+1、官网下载1908版本
+网址：https://blog.csdn.net/Longyu_wlz/article/details/115789310
+ubuntu版本：18.04
+dpdk版本：19.08(注意不是19.08.2也不是19.08.1)
+2、将dpdk文件解压
+将文件放至/home/uesr/目录下并进行解压
+  tar xf dpdk.tar.gz
+  cd dpdk
+3、安装3个依赖
+sudo apt-get install numactl
+sudo apt-get install libnuma-dev
+sudo apt-get install net-tools
+4、添加网卡并将网卡类型改成vmxnet3(支持多队列网卡)
+添加网卡：虚拟机里面添加网络适配器即可
+修改vmxnet3:在系统虚拟机安装位置里面找到vmx配置文件将e1000改成vmxnet3,并将初始的网络适配器改成桥接模式用来作为dpdk绑定的网卡
+5、挂载大页内存
+sudo vi /etc/default/grub 
+#将GRUB_CMDLINE_LINUX重添加：default_hugepagesz=1GB hugepagesz=1G hugepages=2
+sudo update-grub
+reboot
+6、配置RTE_SDK以及RTE_TARGET环境变量
+export RTE_SDK=/home/mashuai/dpdk-19.08
+export RTE_TARGET=x86_64-native-linux-gcc
+6、进入dpdk的目录执行./dpdk-setup.sh
+7、绑定网卡（两种方法）
+#方法一
+# ifconfig ens160 down
+# /usertools/dpdk-devbind.py --bind=igb_uio 0000:03:00.0
+#查看绑定情况
+#./usertools/dpdk-devbind.py --status    
+
+ #方法二
+ 使用optinal:49绑定好端口的编号即可，在绑定之前还是需要将网口down掉。
+
+8、测试安装结果
+打开新的终端进入 dpdk 目录下 examples/helloworld 文件夹
+make
+sudo ./build/helloworld
+##执行结果如下：
+mashuai@ubuntu:~/dpdk-19.08/examples/helloworld$ sudo ./build/helloworld 
+[sudo] password for mashuai: 
+EAL: Detected 4 lcore(s)
+EAL: Detected 1 NUMA nodes
+EAL: Multi-process socket /var/run/dpdk/rte/mp_socket
+EAL: Selected IOVA mode 'PA'
+EAL: Probing VFIO support...
+EAL: VFIO support initialized
+EAL: PCI device 0000:02:01.0 on NUMA socket -1
+EAL:   Invalid NUMA socket, default to 0
+EAL:   probe driver: 8086:100f net_e1000_em
+EAL: PCI device 0000:03:00.0 on NUMA socket -1
+EAL:   Invalid NUMA socket, default to 0
+EAL:   probe driver: 15ad:7b0 net_vmxnet3
+hello from core 1
+hello from core 2
+hello from core 3
+hello from core 0
+备注：dpdk的使用场景
+虚拟化网卡，绕过内核从而提升性能
+在防火墙那边进行流量和数据的转发
+
+
+
+
+
+
+
