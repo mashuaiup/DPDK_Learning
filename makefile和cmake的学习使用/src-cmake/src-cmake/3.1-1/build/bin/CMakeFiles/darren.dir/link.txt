@@ -1,0 +1,1 @@
+/usr/bin/cc   -rdynamic CMakeFiles/darren.dir/main.c.o  -o darren -Wl,-rpath,/home/mashuai/Desktop/DPDK_Learning/makefile和cmake的学习使用/src-cmake/src-cmake/3.1-1/build/bin/dir1: dir1/libdir1.so dir2/libdir2.a 

@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../src/dir1/dir1.h
+stdio.h
+-
+
+../src/dir2/dir2.h
+stdio.h
+-
+
+/home/mashuai/Desktop/DPDK_Learning/makefile和cmake的学习使用/src-cmake/src-cmake/3.1-1/src/main.c
+stdio.h
+-
+dir1.h
+/home/mashuai/Desktop/DPDK_Learning/makefile和cmake的学习使用/src-cmake/src-cmake/3.1-1/src/dir1.h
+dir2.h
+/home/mashuai/Desktop/DPDK_Learning/makefile和cmake的学习使用/src-cmake/src-cmake/3.1-1/src/dir2.h
+
