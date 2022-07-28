@@ -1,0 +1,1 @@
+/usr/bin/cc   -rdynamic CMakeFiles/youzi.dir/main.c.o  -o youzi 
